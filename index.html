@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>KodeBMD — Kodefikasi Barang Milik Daerah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #14192b;
+    --navy-mid: #1e2540;
+    --navy-light: #2a3356;
+    --gold: #c9a84c;
+    --gold-light: #e0c070;
+    --gold-dim: #8a6e2e;
+    --cream: #f5f0e8;
+    --cream-dark: #ede7d9;
+    --white: #ffffff;
+    --text-dark: #14192b;
+    --text-mid: #4a5068;
+    --text-light: #8892a4;
+    --border: #e2ddd4;
+    --shadow-sm: 0 1px 4px rgba(20,25,43,0.08);
+    --shadow-md: 0 4px 16px rgba(20,25,43,0.12);
+    --shadow-lg: 0 8px 32px rgba(20,25,43,0.16);
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--navy);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 2px solid var(--gold);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .logo-dot {
+    width: 10px; height: 10px;
+    background: var(--gold);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .logo-text {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--white);
+    letter-spacing: -0.3px;
+  }
+
+  .logo-text span {
+    color: var(--gold);
+    font-style: italic;
+    font-family: 'Playfair Display', serif;
+  }
+
+  /* ── NAV TABS ── */
+  .nav-tabs {
+    display: flex;
+    background: var(--navy-mid);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    padding: 0 20px;
+  }
+
+  .nav-tab {
+    padding: 12px 0;
+    margin-right: 24px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--text-light);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    user-select: none;
+  }
+
+  .nav-tab.active {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+  }
+
+  .nav-tab:hover:not(.active) {
+    color: var(--cream);
+  }
+
+  /* ── PAGES ── */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ── SEARCH PAGE ── */
+  .search-hero {
+    background: var(--navy);
+    padding: 32px 20px 28px;
+    text-align: center;
+  }
+
+  .search-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+
+  .search-hero h1 em {
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  .search-hero p {
+    font-size: 13px;
+    color: var(--text-light);
+    margin-bottom: 20px;
+  }
+
+  .search-box {
+    position: relative;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 16px 48px 16px 48px;
+    border-radius: var(--radius);
+    border: 2px solid transparent;
+    background: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: var(--text-dark);
+    outline: none;
+    transition: border-color 0.2s;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .search-input:focus {
+    border-color: var(--gold);
+  }
+
+  .search-input::placeholder {
+    color: var(--text-light);
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-light);
+    font-size: 18px;
+    pointer-events: none;
+  }
+
+  .search-clear {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--cream-dark);
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text-mid);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+  }
+
+  .search-clear:hover { background: var(--border); }
+  .search-clear.visible { display: flex; }
+
+  .search-hint {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  /* ── RESULTS ── */
+  .results-container {
+    padding: 16px 16px 80px;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .results-info {
+    font-size: 12px;
+    color: var(--text-light);
+    margin-bottom: 12px;
+    padding: 0 4px;
+    font-weight: 500;
+  }
+
+  .results-info span {
+    color: var(--gold-dim);
+    font-weight: 600;
+  }
+
+  .placeholder-text {
+    text-align: center;
+    padding: 48px 20px;
+    color: var(--text-light);
+    font-size: 14px;
+  }
+
+  .placeholder-text .icon {
+    font-size: 40px;
+    margin-bottom: 12px;
+    opacity: 0.4;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 10px;
+    box-shadow: var(--shadow-sm);
+    border-left: 3px solid var(--gold);
+    cursor: pointer;
+    transition: box-shadow 0.15s, transform 0.1s;
+    animation: fadeUp 0.2s ease both;
+  }
+
+  .card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+
+  .card:active {
+    transform: scale(0.99);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .card-kode {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--navy);
+    background: var(--cream);
+    padding: 5px 10px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .btn-copy {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 12px;
+    border: 1px solid var(--gold);
+    background: transparent;
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    color: var(--gold-dim);
+    cursor: pointer;
+    transition: all 0.15s;
+    flex-shrink: 0;
+    text-transform: uppercase;
+  }
+
+  .btn-copy:hover {
+    background: var(--gold);
+    color: var(--navy);
+  }
+
+  .btn-copy.copied {
+    background: #2ecc71;
+    border-color: #2ecc71;
+    color: white;
+  }
+
+  .card-uraian {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-dark);
+    line-height: 1.4;
+  }
+
+  .card-uraian mark {
+    background: rgba(201,168,76,0.25);
+    color: var(--navy);
+    border-radius: 2px;
+    padding: 0 1px;
+  }
+
+  .card-meta {
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--text-light);
+    font-weight: 500;
+    letter-spacing: 0.3px;
+  }
+
+  /* ── JELAJAHI PAGE ── */
+  .jelajahi-container {
+    padding: 16px 16px 80px;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+    padding: 10px 14px;
+    background: var(--white);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-sm);
+    font-size: 12px;
+  }
+
+  .breadcrumb-item {
+    color: var(--gold-dim);
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .breadcrumb-item:hover { color: var(--gold); }
+
+  .breadcrumb-sep {
+    color: var(--text-light);
+    font-size: 10px;
+  }
+
+  .breadcrumb-current {
+    color: var(--text-mid);
+    font-weight: 500;
+  }
+
+  .jelajahi-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+
+  .jelajahi-title em { color: var(--gold); font-style: italic; }
+
+  .jelajahi-subtitle {
+    font-size: 12px;
+    color: var(--text-light);
+    margin-bottom: 16px;
+  }
+
+  .jelajahi-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .jelajahi-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition: all 0.15s;
+    border-left: 3px solid transparent;
+    animation: fadeUp 0.15s ease both;
+  }
+
+  .jelajahi-card:hover {
+    border-left-color: var(--gold);
+    box-shadow: var(--shadow-md);
+    transform: translateX(2px);
+  }
+
+  .jelajahi-card-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .jelajahi-kode {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--navy);
+    background: var(--cream);
+    border: 1px solid var(--border);
+    padding: 4px 8px;
+    border-radius: 6px;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .jelajahi-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-dark);
+    line-height: 1.3;
+  }
+
+  .jelajahi-count {
+    font-size: 11px;
+    color: var(--text-light);
+    font-weight: 500;
+    margin-top: 2px;
+  }
+
+  .jelajahi-arrow {
+    color: var(--gold);
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  /* Leaf card in browse */
+  .leaf-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    box-shadow: var(--shadow-sm);
+    border-left: 3px solid var(--gold);
+    animation: fadeUp 0.15s ease both;
+    margin-bottom: 8px;
+  }
+
+  .leaf-kode {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--navy);
+    background: var(--cream);
+    border: 1px solid var(--border);
+    padding: 4px 8px;
+    border-radius: 6px;
+    display: inline-block;
+    margin-bottom: 8px;
+  }
+
+  .leaf-uraian {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+
+  .leaf-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  /* ── ABOUT PAGE ── */
+  .about-container {
+    padding: 24px 16px 80px;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .about-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 12px;
+  }
+
+  .about-card h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+
+  .about-card h2 em { color: var(--gold); }
+
+  .about-card p {
+    font-size: 13px;
+    color: var(--text-mid);
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+
+  .about-card p:last-child { margin-bottom: 0; }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--navy);
+    margin: 3px 2px;
+  }
+
+  .badge-gold {
+    background: rgba(201,168,76,0.15);
+    border-color: var(--gold);
+    color: var(--gold-dim);
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0; right: 0;
+    background: var(--navy);
+    border-top: 1px solid rgba(201,168,76,0.2);
+    padding: 10px 20px;
+    text-align: center;
+    z-index: 50;
+  }
+
+  .footer p {
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 0.2px;
+  }
+
+  .footer span { color: var(--gold); }
+
+  /* ── LOADING ── */
+  .loading {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-light);
+    font-size: 14px;
+  }
+
+  .spinner {
+    width: 28px; height: 28px;
+    border: 3px solid var(--border);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin: 0 auto 12px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 64px;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: var(--navy);
+    color: var(--white);
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid var(--gold);
+    opacity: 0;
+    transition: all 0.25s;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 200;
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ── STAT CHIPS ── */
+  .stat-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+
+  .stat-chip {
+    background: var(--navy);
+    color: var(--white);
+    border-radius: 8px;
+    padding: 10px 16px;
+    flex: 1;
+    min-width: 100px;
+    text-align: center;
+  }
+
+  .stat-chip .num {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gold);
+    display: block;
+  }
+
+  .stat-chip .lbl {
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    display: block;
+    margin-top: 2px;
+  }
+
+  /* Responsive */
+  @media (max-width: 400px) {
+    .search-hero h1 { font-size: 24px; }
+    .card-kode { font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <a href="#" class="logo" onclick="goHome()">
+      <div class="logo-dot"></div>
+      <div class="logo-text">Kode<span>BMD</span></div>
+    </a>
+  </div>
+  <nav class="nav-tabs">
+    <div class="nav-tab active" id="tab-cari" onclick="switchTab('cari')">🔍 Cari</div>
+    <div class="nav-tab" id="tab-jelajahi" onclick="switchTab('jelajahi')">🗂 Jelajahi</div>
+    <div class="nav-tab" id="tab-tentang" onclick="switchTab('tentang')">ℹ️ Tentang</div>
+  </nav>
+</header>
+
+<!-- PAGE: CARI -->
+<div class="page active" id="page-cari">
+  <div class="search-hero">
+    <h1>Temukan <em>Kode</em> Barang</h1>
+    <p>Permendagri No. 108 Tahun 2016</p>
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input 
+        type="text" 
+        class="search-input" 
+        id="searchInput"
+        placeholder="Cari nama barang, misal: Meja, Laptop, Kendaraan..."
+        autocomplete="off"
+        autocorrect="off"
+        spellcheck="false"
+        oninput="handleSearch(this.value)"
+      >
+      <button class="search-clear" id="clearBtn" onclick="clearSearch()">✕</button>
+    </div>
+    <div class="search-hint">Ketik kata kunci untuk mulai mencari</div>
+  </div>
+
+  <div class="results-container" id="resultsContainer">
+    <div class="placeholder-text">
+      <div class="icon">📦</div>
+      <div>Masukkan kata kunci untuk mencari kodefikasi barang</div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: JELAJAHI -->
+<div class="page" id="page-jelajahi">
+  <div class="jelajahi-container" id="jelajahiContainer">
+    <div class="loading"><div class="spinner"></div>Memuat...</div>
+  </div>
+</div>
+
+<!-- PAGE: TENTANG -->
+<div class="page" id="page-tentang">
+  <div class="about-container">
+    <div class="stat-row" id="statRow">
+      <div class="stat-chip"><span class="num" id="statItems">—</span><span class="lbl">Total Barang</span></div>
+      <div class="stat-chip"><span class="num">108</span><span class="lbl">Permendagri</span></div>
+      <div class="stat-chip"><span class="num">2016</span><span class="lbl">Tahun</span></div>
+    </div>
+
+    <div class="about-card">
+      <h2>Tentang <em>KodeBMD</em></h2>
+      <p>KodeBMD adalah aplikasi pencarian kodefikasi Barang Milik Daerah berdasarkan <strong>Peraturan Menteri Dalam Negeri Nomor 108 Tahun 2016</strong> tentang Penggolongan dan Kodefikasi Barang Milik Daerah.</p>
+      <p>Aplikasi ini memudahkan petugas dan pengelola aset daerah dalam menemukan kode barang yang tepat sesuai peraturan.</p>
+    </div>
+
+    <div class="about-card">
+      <h2>Struktur <em>Kode</em></h2>
+      <p>Kode barang terdiri dari 7 level hierarki:</p>
+      <div style="margin-top:10px; font-family:'DM Mono',monospace; font-size:13px; color:var(--navy); background:var(--cream); padding:14px; border-radius:8px; line-height:2;">
+        <span style="color:var(--gold)">1</span>.<span style="color:#e67e22">3</span>.<span style="color:#27ae60">2</span>.<span style="color:#2980b9">01</span>.<span style="color:#8e44ad">01</span>.<span style="color:#c0392b">01</span>.<span style="color:#16a085">001</span><br>
+        <span style="font-size:10px; font-family:'DM Sans',sans-serif; color:var(--text-light);">
+          <span style="color:var(--gold)">Akun</span> · <span style="color:#e67e22">Kelompok</span> · <span style="color:#27ae60">Jenis</span> · <span style="color:#2980b9">Objek</span> · <span style="color:#8e44ad">Rincian</span> · <span style="color:#c0392b">Sub Rincian</span> · <span style="color:#16a085">Sub-Sub</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="about-card">
+      <h2>Kelompok <em>Aset</em></h2>
+      <div style="margin-top:8px;">
+        <span class="badge badge-gold">1.1 Aset Lancar</span>
+        <span class="badge badge-gold">1.3 Aset Tetap</span>
+        <span class="badge badge-gold">1.5 Aset Lainnya</span>
+      </div>
+      <div style="margin-top:8px;">
+        <span class="badge">1.1.7 Persediaan</span>
+        <span class="badge">1.3.1 Tanah</span>
+        <span class="badge">1.3.2 Peralatan & Mesin</span>
+        <span class="badge">1.3.3 Gedung & Bangunan</span>
+        <span class="badge">1.3.4 Jalan, Jaringan & Irigasi</span>
+        <span class="badge">1.3.5 Aset Tetap Lainnya</span>
+      </div>
+    </div>
+
+    <div class="about-card">
+      <p style="font-size:12px; color:var(--text-light); text-align:center;">
+        Raynold — Bagian Organisasi Sekretariat Daerah<br>
+        Pemerintah Kabupaten Indragiri Hulu — 2026
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>Raynold — <span>Bagian Organisasi Setda Inhu</span> — 2026</p>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="data.js"></script>
+<script>
+// ══════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════
+let currentTab = 'cari';
+let browseStack = []; // array of prefix strings
+let searchTimeout = null;
+
+// ══════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════
+window.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('statItems').textContent = 
+    BMD_DATA.length.toLocaleString('id-ID');
+  renderBrowseRoot();
+});
+
+// ══════════════════════════════════════════════
+// TAB SWITCHING
+// ══════════════════════════════════════════════
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + tab).classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
+  if (tab === 'jelajahi' && browseStack.length === 0) renderBrowseRoot();
+}
+
+function goHome() {
+  switchTab('cari');
+}
+
+// ══════════════════════════════════════════════
+// SEARCH
+// ══════════════════════════════════════════════
+function handleSearch(query) {
+  const clearBtn = document.getElementById('clearBtn');
+  clearBtn.classList.toggle('visible', query.length > 0);
+
+  clearTimeout(searchTimeout);
+  if (!query.trim()) {
+    document.getElementById('resultsContainer').innerHTML = `
+      <div class="placeholder-text">
+        <div class="icon">📦</div>
+        <div>Masukkan kata kunci untuk mencari kodefikasi barang</div>
+      </div>`;
+    return;
+  }
+
+  document.getElementById('resultsContainer').innerHTML = 
+    '<div class="loading"><div class="spinner"></div>Mencari...</div>';
+
+  searchTimeout = setTimeout(() => {
+    const q = query.trim().toLowerCase();
+    const words = q.split(/\s+/);
+    
+    const results = BMD_DATA.filter(item => {
+      const haystack = (item.kode + ' ' + item.uraian).toLowerCase();
+      return words.every(w => haystack.includes(w));
+    });
+
+    renderResults(results, query.trim());
+  }, 200);
+}
+
+function clearSearch() {
+  document.getElementById('searchInput').value = '';
+  document.getElementById('clearBtn').classList.remove('visible');
+  document.getElementById('resultsContainer').innerHTML = `
+    <div class="placeholder-text">
+      <div class="icon">📦</div>
+      <div>Masukkan kata kunci untuk mencari kodefikasi barang</div>
+    </div>`;
+  document.getElementById('searchInput').focus();
+}
+
+function renderResults(results, query) {
+  const container = document.getElementById('resultsContainer');
+  
+  if (results.length === 0) {
+    container.innerHTML = `
+      <div class="placeholder-text">
+        <div class="icon">🔎</div>
+        <div>Tidak ditemukan hasil untuk "<strong>${escHtml(query)}</strong>"</div>
+        <div style="margin-top:8px;font-size:12px;">Coba kata kunci lain</div>
+      </div>`;
+    return;
+  }
+
+  const limit = 50;
+  const shown = results.slice(0, limit);
+  let html = `<div class="results-info">Menampilkan <span>${shown.length}</span> dari <span>${results.length.toLocaleString('id-ID')}</span> hasil</div>`;
+
+  shown.forEach((item, i) => {
+    const delay = Math.min(i * 20, 300);
+    html += renderCard(item, query, delay);
+  });
+
+  if (results.length > limit) {
+    html += `<div style="text-align:center;padding:16px;font-size:13px;color:var(--text-light);">
+      Tampilkan lebih spesifik untuk melihat lebih banyak hasil (${results.length - limit} lainnya)
+    </div>`;
+  }
+
+  container.innerHTML = html;
+}
+
+function renderCard(item, query, delay = 0) {
+  const kode = escHtml(item.kode);
+  const uraian = highlightMatch(item.uraian, query);
+  const parts = item.kode.split('.');
+  const meta = getHierarchyLabel(parts);
+
+  return `
+    <div class="card" style="animation-delay:${delay}ms" onclick="copyKode('${kode}', this)">
+      <div class="card-header">
+        <span class="card-kode">${kode}</span>
+        <button class="btn-copy" onclick="event.stopPropagation(); copyKode('${kode}', this.closest('.card').querySelector('.btn-copy'))">
+          📋 Salin
+        </button>
+      </div>
+      <div class="card-uraian">${uraian}</div>
+      <div class="card-meta">${meta}</div>
+    </div>`;
+}
+
+// ══════════════════════════════════════════════
+// BROWSE / JELAJAHI
+// ══════════════════════════════════════════════
+function renderBrowseRoot() {
+  browseStack = [];
+  renderBrowseLevel('');
+}
+
+function renderBrowseLevel(prefix) {
+  const container = document.getElementById('jelajahiContainer');
+
+  // Dapatkan semua children langsung dari prefix
+  const depth = prefix === '' ? 0 : prefix.split('.').length;
+  const children = getDirectChildren(prefix);
+
+  // Label dan breadcrumb
+  const crumbHtml = buildBreadcrumb();
+  const titleHtml = buildBrowseTitle(prefix, depth);
+  
+  // Cek apakah children adalah leaf nodes
+  const isLeaf = depth >= 6; // sub-sub rincian
+
+  let html = crumbHtml + titleHtml;
+
+  if (isLeaf) {
+    // Tampilkan item sebagai leaf cards
+    const items = BMD_DATA.filter(d => d.kode.startsWith(prefix + (prefix ? '.' : '')));
+    html += `<div class="jelajahi-subtitle">${items.length} barang</div>`;
+    html += '<div>';
+    items.forEach((item, i) => {
+      const delay = Math.min(i * 15, 300);
+      html += `
+        <div class="leaf-card" style="animation-delay:${delay}ms">
+          <div class="leaf-kode">${escHtml(item.kode)}</div>
+          <div class="leaf-uraian">${escHtml(item.uraian)}</div>
+          <div class="leaf-actions">
+            <button class="btn-copy" onclick="copyKode('${escHtml(item.kode)}', this)">📋 Salin Kode</button>
+          </div>
+        </div>`;
+    });
+    html += '</div>';
+  } else {
+    // Tampilkan children sebagai navigasi
+    const totalItems = children.reduce((sum, c) => sum + c.count, 0);
+    html += `<div class="jelajahi-subtitle">${children.length} kategori · ${totalItems.toLocaleString('id-ID')} barang</div>`;
+    html += '<div class="jelajahi-grid">';
+    children.forEach((child, i) => {
+      const delay = Math.min(i * 20, 400);
+      html += `
+        <div class="jelajahi-card" style="animation-delay:${delay}ms" onclick="browseInto('${child.prefix}')">
+          <div class="jelajahi-card-left">
+            <span class="jelajahi-kode">${child.prefix}</span>
+            <div>
+              <div class="jelajahi-label">${escHtml(child.label)}</div>
+              <div class="jelajahi-count">${child.count.toLocaleString('id-ID')} barang</div>
+            </div>
+          </div>
+          <span class="jelajahi-arrow">›</span>
+        </div>`;
+    });
+    html += '</div>';
+  }
+
+  container.innerHTML = html;
+  container.scrollTop = 0;
+}
+
+function getDirectChildren(prefix) {
+  const depth = prefix === '' ? 0 : prefix.split('.').length;
+  const childMap = {};
+
+  BMD_DATA.forEach(item => {
+    const parts = item.kode.split('.');
+    if (prefix === '') {
+      // Root level: group by akun.kelompok.jenis (first 3 levels combined as navigation start)
+      if (parts.length >= 3) {
+        const childPrefix = parts.slice(0, 3).join('.');
+        if (!childMap[childPrefix]) childMap[childPrefix] = 0;
+        childMap[childPrefix]++;
+      }
+    } else {
+      const prefixParts = prefix.split('.');
+      const itemPrefix = parts.slice(0, prefixParts.length).join('.');
+      if (itemPrefix === prefix && parts.length > prefixParts.length) {
+        const childPrefix = parts.slice(0, prefixParts.length + 1).join('.');
+        if (!childMap[childPrefix]) childMap[childPrefix] = 0;
+        childMap[childPrefix]++;
+      }
+    }
+  });
+
+  return Object.entries(childMap).map(([prefix, count]) => ({
+    prefix,
+    count,
+    label: getLabel(prefix)
+  })).sort((a, b) => a.prefix.localeCompare(b.prefix));
+}
+
+function getLabel(prefix) {
+  // Known labels
+  if (BMD_LABELS[prefix]) return BMD_LABELS[prefix];
+  
+  // Fallback: ambil uraian pertama yang punya prefix ini
+  const first = BMD_DATA.find(d => d.kode.startsWith(prefix + '.') || d.kode === prefix);
+  if (first) {
+    // Ambil bagian yang relevan dari uraian
+    return first.uraian.length > 40 ? first.uraian.substring(0, 40) + '…' : first.uraian;
+  }
+  return prefix;
+}
+
+function browseInto(prefix) {
+  browseStack.push(prefix);
+  renderBrowseLevel(prefix);
+}
+
+function browseBack(index) {
+  browseStack = browseStack.slice(0, index);
+  const prefix = index === 0 ? '' : browseStack[index - 1];
+  renderBrowseLevel(prefix);
+}
+
+function buildBreadcrumb() {
+  if (browseStack.length === 0) return '';
+  
+  let html = '<div class="breadcrumb">';
+  html += `<span class="breadcrumb-item" onclick="browseBack(0)">Beranda</span>`;
+  
+  browseStack.forEach((prefix, i) => {
+    html += `<span class="breadcrumb-sep">›</span>`;
+    if (i < browseStack.length - 1) {
+      html += `<span class="breadcrumb-item" onclick="browseBack(${i + 1})">${prefix}</span>`;
+    } else {
+      html += `<span class="breadcrumb-current">${prefix}</span>`;
+    }
+  });
+  
+  html += '</div>';
+  return html;
+}
+
+function buildBrowseTitle(prefix, depth) {
+  if (prefix === '') {
+    return `
+      <div class="jelajahi-title">Jelajahi <em>Kategori</em></div>
+    `;
+  }
+  const label = getLabel(prefix);
+  return `
+    <div class="jelajahi-title">${escHtml(label)}</div>
+  `;
+}
+
+// ══════════════════════════════════════════════
+// COPY
+// ══════════════════════════════════════════════
+function copyKode(kode, btn) {
+  navigator.clipboard.writeText(kode).then(() => {
+    showToast('✓ Kode disalin: ' + kode);
+    if (btn && btn.classList) {
+      const orig = btn.innerHTML;
+      btn.classList.add('copied');
+      btn.innerHTML = '✓ Disalin';
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        btn.innerHTML = orig;
+      }, 1500);
+    }
+  }).catch(() => {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = kode;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('✓ Kode disalin: ' + kode);
+  });
+}
+
+// ══════════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════════
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+function getHierarchyLabel(parts) {
+  const labels = [];
+  for (let i = 1; i <= Math.min(parts.length - 1, 3); i++) {
+    const prefix = parts.slice(0, i).join('.');
+    const lbl = BMD_LABELS[prefix];
+    if (lbl) labels.push(lbl);
+  }
+  return labels.join(' › ') || parts.slice(0, -1).join('.');
+}
+
+function highlightMatch(text, query) {
+  if (!query) return escHtml(text);
+  const words = query.split(/\s+/).filter(Boolean);
+  let escaped = escHtml(text);
+  words.forEach(w => {
+    const regex = new RegExp('(' + escRegex(w) + ')', 'gi');
+    escaped = escaped.replace(regex, '<mark>$1</mark>');
+  });
+  return escaped;
+}
+
+function escHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function escRegex(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+</script>
+</body>
+</html>
